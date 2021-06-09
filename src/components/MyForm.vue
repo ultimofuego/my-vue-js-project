@@ -31,13 +31,15 @@ export default {
     }
   },
 
-  async mounted() {
-    this.$store.dispatch("fetchNotes")
-  },
-
   methods: {
     submitForm() {
       this.$store.commit('addRow', this.rowData)
+      this.$router.push({
+          path: '/',
+          query: {
+              page: this.$route.path
+          }
+      })
       this.rowData = {
         userId: '',
         title: '',

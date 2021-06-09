@@ -1,4 +1,5 @@
 <template>
+    <router-link to="/addrow">Добавить данные</router-link>
     <table v-if="allNotes.length > 0" table class="table table-sm">
       <thead>
           <tr>
@@ -31,6 +32,5 @@ export default {
             this.$store.commit('removeRow', idx)
         }
     }
-  
 }
 </script>
