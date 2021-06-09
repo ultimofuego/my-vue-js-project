@@ -3,11 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
     state() {
         return {
-            rowData: {
-                userId: '',
-                title: '',
-                body: ''
-              }
+            rowData: []
         }
     },
     getters: {
@@ -27,19 +23,11 @@ export default createStore({
             state.rowData = rowData
         },
         addRow(state, rowData) {
-
-            let my_obj = {
-                userId: rowData.userId,
-                title: rowData.title,
-                body: rowData.body
-            }
-
-            state.rowData.push(my_obj)
-            // state.rowData.body=''
-            // state.rowData.title=''
-            // state.rowData.userId=''
-    
+            state.rowData.push(rowData)
+            
+        },
+        removeRow(state, idx) {
+            state.rowData.splice(idx,1)
         }
-        
     }
 })
