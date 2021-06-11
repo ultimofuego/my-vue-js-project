@@ -28,8 +28,8 @@ export default {
     ...mapGetters(["allNotes"])
     },
     methods: {
-        removeRow(idx) {
-            this.$store.commit('removeRow', idx)
+        removeRow(index) {
+          this.$store.dispatch('removefromDB', index)
         }
     }
 }

@@ -39,7 +39,7 @@ export default {
 
   methods: {
     submitForm() {
-      this.$store.commit('addRow', this.rowData)
+      //this.$store.commit('addRow', this.rowData)
       this.$store.dispatch('pushtoDB', this.rowData)
       this.$router.push({
           path: '/',

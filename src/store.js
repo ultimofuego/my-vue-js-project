@@ -27,8 +27,20 @@ export default createStore({
             }
         },
         async pushtoDB(ctx, rowData) {
-            const response = await axios.post('https://ultimofuego-47283-default-rtdb.firebaseio.com/notes.json', rowData)
-            ctx.commmit('updateNotes', response.data)
+            await axios.post('https://ultimofuego-47283-default-rtdb.firebaseio.com/notes.json', rowData)
+            ctx.commit('addRow', rowData)
+        },
+        async removefromDB(ctx, index) {
+            const {data} = await axios.get('https://ultimofuego-47283-default-rtdb.firebaseio.com/notes.json')
+            const res = Object.keys(data).map(key => {
+                return {
+                    id: key,
+                    value: data[key]
+                }
+            })
+
+            await axios.delete(`https://ultimofuego-47283-default-rtdb.firebaseio.com/notes/${res[index].id}.json`)
+            ctx.commit('removeRow', index)
         }
     },
 
@@ -39,8 +51,8 @@ export default createStore({
         addRow(state, rowData) {
             state.rowData.push(rowData)
         },
-        removeRow(state, idx) {
-            state.rowData.splice(idx,1)
+        removeRow(state, index) {
+            state.rowData.splice(index,1)
         }
     }
 })
