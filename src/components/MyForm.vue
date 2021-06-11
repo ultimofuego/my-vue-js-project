@@ -20,20 +20,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+//import axios from 'axios'
+
 export default {
     data() {
-    return {
-      rowData: {
-        userId: '',
-        title: '',
-        body: ''
-      }
+      return {
+        rowData: {
+          userId: '',
+          title: '',
+          body: ''
+        }
     }
+  },
+  computed: {
+    ...mapGetters(["allNotes"])
   },
 
   methods: {
     submitForm() {
       this.$store.commit('addRow', this.rowData)
+      this.$store.dispatch('pushtoDB', this.rowData)
       this.$router.push({
           path: '/',
           query: {
