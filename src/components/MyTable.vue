@@ -29,7 +29,17 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-  ...mapGetters(["allNotes"])
+    ...mapGetters(["allNotes"]),
+    plotData() {
+      return {
+        xEUR: this.allNotes.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
+        yEUR: this.allNotes.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
+        xRUB: this.allNotes.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
+        yRUB: this.allNotes.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
+        xUSD: this.allNotes.filter(cur => cur.currency==="USD").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
+        yUSD: this.allNotes.filter(cur => cur.currency==="USD").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
+      }
+    }
   },
   methods: {
     removeRow(index) {
@@ -38,23 +48,24 @@ export default {
   },
   mounted() {
     //this.$store.commit('updateNotes',this.$store.state.rowData)
+    console.log(this.plotData)
   },
-  // data() {
-  //   return {
-  //     options: {
-  //       chart: {
-  //             id: 'fb'
-  //           },
-  //       xaxis: {
-  //         categories: this.$store.state.plotData.xRUB
-  //       }
-  //     },
-  //     series: [{
-  //       name: 'series-1',
-  //       data: this.$store.state.plotData.yRUB
-  //     }]
-  //   }
-  // }
+  data() {
+    return {
+      options: {
+        chart: {
+              id: 'fb'
+            },
+        xaxis: {
+          categories: []
+        }
+      },
+      series: [{
+        name: 'series-1',
+        data: []
+      }]
+    }
+  }
 }
 //PLOT
 
