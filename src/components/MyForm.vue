@@ -21,7 +21,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-//import axios from 'axios'
 
 export default {
     data() {
@@ -40,7 +39,6 @@ export default {
 
   methods: {
     submitForm() {
-      //this.$store.commit('addRow', this.rowData)
       this.$store.dispatch('pushtoDB', this.rowData)
       this.$router.push({
           path: '/',
@@ -48,7 +46,6 @@ export default {
               page: this.$route.path
           }
       })
-      //this.$store.commit('dataPlot',this.rowData)
 
       this.rowData = {
         date: '',
@@ -56,20 +53,6 @@ export default {
         rate: ''
       }
     }
-    // dataX() {
-    //   const temp = this.allNotes
-    //   const filteredTempEUR = temp.filter(cur => cur.currency==="EUR").sort((a, b) => a.date > b.date ? 1 : -1)
-    //   const filteredTempRUB = temp.filter(cur => cur.currency==="RUB").sort((a, b) => a.date > b.date ? 1 : -1)
-    //   const filteredTempUSD = temp.filter(cur => cur.currency==="USD").sort((a, b) => a.date > b.date ? 1 : -1)
-    //   return {
-    //     xEUR: filteredTempEUR.map(a=>a.date),
-    //     yEUR: filteredTempEUR.map(a=>a.rate),
-    //     xRUB: filteredTempRUB.map(a=>a.date),
-    //     yRUB: filteredTempRUB.map(a=>a.rate),
-    //     xUSD: filteredTempUSD.map(a=>a.date),
-    //     yUSD: filteredTempUSD.map(a=>a.rate)
-    //   }
-    // }
   }
 }
 </script>

@@ -18,26 +18,45 @@
       </tbody>
     </table>
     <div v-else class="alert">No data</div>
-
+    <apexchart 
+     width="500" type="line" 
+     :options="options" :series="series">
+   </apexchart>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 
-
-
 export default {
-    computed: {
-    ...mapGetters(["allNotes"])
-    },
-    methods: {
-        removeRow(index) {
-          this.$store.dispatch('removefromDB', index)
-        }
-    },
-    async mounted(){
-      this.$store.commit('dataPlot',this.allNotes)
-      //console.log(this.$store.state.plotData)
+  computed: {
+  ...mapGetters(["allNotes"])
+  },
+  methods: {
+    removeRow(index) {
+      this.$store.dispatch('removefromDB', index)
     }
+  },
+  mounted() {
+    //this.$store.commit('updateNotes',this.$store.state.rowData)
+  },
+  // data() {
+  //   return {
+  //     options: {
+  //       chart: {
+  //             id: 'fb'
+  //           },
+  //       xaxis: {
+  //         categories: this.$store.state.plotData.xRUB
+  //       }
+  //     },
+  //     series: [{
+  //       name: 'series-1',
+  //       data: this.$store.state.plotData.yRUB
+  //     }]
+  //   }
+  // }
 }
+//PLOT
+
+
 </script>

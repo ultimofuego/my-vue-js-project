@@ -11,6 +11,9 @@ export default createStore({
     getters: {
         allNotes(state) {
             return state.rowData
+        },
+        getPlotData() {
+
         }
     },
     actions: {
@@ -57,20 +60,6 @@ export default createStore({
         },
         removeRow(state, index) {
             state.rowData.splice(index,1)
-        },
-        dataPlot(state, rowData) {
-            console.log(rowData)
-            const filteredTempEUR = rowData.filter(cur => cur.currency==="EUR").sort((a, b) => a.date > b.date ? 1 : -1)
-            const filteredTempRUB = rowData.filter(cur => cur.currency==="RUB").sort((a, b) => a.date > b.date ? 1 : -1)
-            const filteredTempUSD = rowData.filter(cur => cur.currency==="USD").sort((a, b) => a.date > b.date ? 1 : -1)
-            return state.plotData = {
-              xEUR: filteredTempEUR.map(a=>a.date),
-              yEUR: filteredTempEUR.map(a=>a.rate),
-              xRUB: filteredTempRUB.map(a=>a.date),
-              yRUB: filteredTempRUB.map(a=>a.rate),
-              xUSD: filteredTempUSD.map(a=>a.date),
-              yUSD: filteredTempUSD.map(a=>a.rate)
-            }
-          }
+        }
     }
 })
