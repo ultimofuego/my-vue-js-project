@@ -4,7 +4,8 @@ import router from './router'
 import VueApexCharts from "vue3-apexcharts"
 
 import './styles/bootstrap.min.css'
-import './styles/myStyles.css'
+import './styles/bootstrap-grid.min.css'
+import './styles/myStyles.scss'
 
 import store from './store'
 

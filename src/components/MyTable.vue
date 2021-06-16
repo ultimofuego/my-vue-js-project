@@ -1,11 +1,14 @@
 <template>
-    <router-link to="/addrow">Добавить данные</router-link>
-    <table v-if="allNotes.length > 0" table class="table table-sm">
+<div class="container">
+  <router-link to="/addrow" class="addButton">Добавить данные</router-link>
+  <div class="container-inner">
+    <table v-if="allNotes.length > 0" class="content-table">
       <thead>
           <tr>
             <th scope="col">Date</th>
             <th scope="col">Currency</th>
             <th scope="col">Rate</th>
+            <th></th>
           </tr>
       </thead>
       <tbody>
@@ -13,7 +16,7 @@
           <td>{{item.date}}</td>
           <td>{{item.currency}}</td>
           <td>{{item.rate}}</td>
-          <button class="btn btn-danger" @click="removeRow(index)">Remove</button>
+          <td><button class="removeButton" @click="removeRow(index)">Remove</button></td>
         </tr>
       </tbody>
     </table>
@@ -22,6 +25,9 @@
      width="500" type="line" 
      :options="options" :series="series">
    </apexchart>
+  </div>
+    
+</div>
 </template>
 
 <script>
