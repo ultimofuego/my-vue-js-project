@@ -1,50 +1,74 @@
 <template>
-<div class="container">
-  <router-link to="/addrow" class="addButton">Add Data</router-link>
-  <div class="container-inner">
-    <table v-if="allNotes.length > 0" class="content-table">
-      <thead>
-          <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Currency</th>
-            <th scope="col">Rate</th>
-            <th></th>
+  <Loader v-if="this.$store.state.loading"></Loader>
+  <div v-else class="container">
+    <router-link to="/addrow" class="addButton">Add Data</router-link>
+    <div class="container-inner">
+      <table v-if="allNotes.length > 0" class="content-table">
+        <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Currency</th>
+              <th scope="col">Rate</th>
+              <th></th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in allNotes" :key="index">
+            <td>{{item.date}}</td>
+            <td>{{item.currency}}</td>
+            <td>{{item.rate}}</td>
+            <td><button class="removeButton" @click="removeRow(index)">Remove</button></td>
           </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in allNotes" :key="index">
-          <td>{{item.date}}</td>
-          <td>{{item.currency}}</td>
-          <td>{{item.rate}}</td>
-          <td><button class="removeButton" @click="removeRow(index)">Remove</button></td>
-        </tr>
-      </tbody>
-    </table>
-    <div v-else class="alert">No data</div>
-    <apexchart 
-     width="500" type="line" 
-     :options="options" :series="series">
-   </apexchart>
+        </tbody>
+      </table>
+      <apexchart 
+      width="500" type="line" 
+      :options="options" :series="series">
+    </apexchart>
+    </div>
+      
   </div>
-    
-</div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import Loader from './Loader.vue'
 
 export default {
   computed: {
     ...mapGetters(["allNotes"]),
-    plotData() {
+    // plotData() {
+    //   let temp = {}
+    //   temp.xEUR = this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
+    //   temp.yEUR = this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
+    //   temp.xRUB = this.$store.state.rowData.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
+    //   temp.yRUB = this.$store.state.rowData.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
+    //   temp.xUSD = this.$store.state.rowData.filter(cur => cur.currency==="USD").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
+    //   temp.yUSD = this.$store.state.rowData.filter(cur => cur.currency==="USD").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
+    //   return temp
+    // },
+    options() {
       return {
-        xEUR: this.allNotes.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
-        yEUR: this.allNotes.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
-        xRUB: this.allNotes.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
-        yRUB: this.allNotes.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
-        xUSD: this.allNotes.filter(cur => cur.currency==="USD").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
-        yUSD: this.allNotes.filter(cur => cur.currency==="USD").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
+        chart: {
+          id: 'fb'
+        },
+        xaxis: {
+          categories: this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date)
+        },
+        colors: ['#6B6779','#EDC072', '#B5CFC6'],
+        stroke: {
+          curve: 'smooth'
+        }
       }
+    },
+    series() {
+      return [{
+        name: 'series-1',
+        data: this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
+      },{
+        name: 'series-1',
+        data: this.$store.state.rowData.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
+      }]
     }
   },
   methods: {
@@ -52,39 +76,8 @@ export default {
       this.$store.dispatch('removefromDB', index)
     }
   },
-  mounted() {
-    //this.$store.commit('updateNotes',this.$store.state.rowData)
-  },
-  data() {
-    return {
-      options: {
-        chart: {
-          id: 'fb'
-        },
-        xaxis: {
-          categories: ['2012-05-10','2012-05-11','2012-05-14']
-        },
-        colors: ['#6B6779','#EDC072', '#B5CFC6'],
-        stroke: {
-          curve: 'smooth'
-        }
-      },
-      series: [{
-        name: 'series-1',
-        data: [32,41,22],
-      },
-      {
-        name: 'series-2',
-        data: [47,32,50]
-      },
-      {
-        name: 'series-3',
-        data: [56,10,5]
-      }]
-    }
+  components: {
+    Loader
   }
 }
-//PLOT
-
-
 </script>

@@ -2,24 +2,24 @@
       <form class="card" @submit.prevent="submitForm">
         <h3>Add data to table</h3>
         <div class="form-group ">
-          <label for="date">Введите дату</label>
+          <label for="date">Select the date</label>
           <input v-model="rowData.date" class="input_field" type="date" id="userId" placeholder="Date" required>
         </div>
         <div class="form-group ">
-          <label for="currency">Введите валюту</label>
+          <label for="currency">Select the currency</label>
           <!-- <input v-model.trim="rowData.currency" class="ml-5" type="text" id="currency" placeholder="Currency" required> -->
           <select v-model="rowData.currency" id="currency" class="input_field" required>
-            <option disabled value="">Выберите один из вариантов</option>
+            <option disabled value="">Type one</option>
             <option>EUR</option>
             <option>RUB</option>
             <option>USD</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="rate">Введите курс</label>
+          <label for="rate">Type an exchange rate</label>
           <input v-model.number="rowData.rate" class="input_field" type="text" id="rate" placeholder="Rate" required>
         </div>
-        <button type="submit" class="submitButton" @click="check">Добавить</button>
+        <button type="submit" class="submitButton" @click="check">Add row</button>
       </form>
 </template>
 

@@ -5,19 +5,17 @@ export default createStore({
     state() {
         return {
             rowData: [],
-            plotData: {}
+            loading: false
         }
     },
     getters: {
         allNotes(state) {
             return state.rowData
-        },
-        getPlotData() {
-
         }
     },
     actions: {
         fetchNotes(ctx) {
+            this.state.loading = true
             axios.get('https://ultimofuego-47283-default-rtdb.firebaseio.com/notes.json')
             .then(res => {
                 res = Object.keys(res.data).map(key => {
@@ -30,7 +28,7 @@ export default createStore({
                 {
                     ctx.commit('addRow', res[i].value) 
                 }
-
+                this.state.loading = false
             })
         },
         pushtoDB(ctx, rowData) {
