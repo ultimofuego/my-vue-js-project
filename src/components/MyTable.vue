@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <router-link to="/addrow" class="addButton">Добавить данные</router-link>
+  <router-link to="/addrow" class="addButton">Add Data</router-link>
   <div class="container-inner">
     <table v-if="allNotes.length > 0" class="content-table">
       <thead>
@@ -54,21 +54,32 @@ export default {
   },
   mounted() {
     //this.$store.commit('updateNotes',this.$store.state.rowData)
-    console.log(this.plotData)
   },
   data() {
     return {
       options: {
         chart: {
-              id: 'fb'
-            },
+          id: 'fb'
+        },
         xaxis: {
-          categories: []
+          categories: ['2012-05-10','2012-05-11','2012-05-14']
+        },
+        colors: ['#6B6779','#EDC072', '#B5CFC6'],
+        stroke: {
+          curve: 'smooth'
         }
       },
       series: [{
         name: 'series-1',
-        data: []
+        data: [32,41,22],
+      },
+      {
+        name: 'series-2',
+        data: [47,32,50]
+      },
+      {
+        name: 'series-3',
+        data: [56,10,5]
       }]
     }
   }

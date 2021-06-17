@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 $maincolor: #6B6779;
 /* Указываем box sizing */
 *,
@@ -119,13 +119,18 @@ select {
     }
     tbody {
         tr {
-            border-bottom: 1px solid #dddddddd
+            border-bottom: 1px solid #dddddddd;
+            &:hover {
+              font-weight: 500;
+              color: darken($maincolor, 50%) !important;
+              background-color: lighten($maincolor,45%) !important;
+            }
         }
         tr:nth-of-type(even) {
             background-color: #f3f3f3;
         }
         tr:last-of-type {
-            border-bottom: 2px solid $maincolor
+            border-bottom: 2px solid $maincolor;
         }
     }
 }
@@ -138,6 +143,8 @@ select {
     color: #fff;
     padding: 6px;
     background-color: lighten($maincolor,25%);
+    border: 0;
+    border-radius: 5px;
     &:hover {
         background-color: $maincolor;
     }
@@ -159,6 +166,63 @@ select {
         text-decoration: none;
         color: #fff;
     }
+}
+
+form {
+  max-width: 700px;
+  width: 100%;
+  margin: 20px auto;
+  box-shadow: 2px 2px 20px rgba(0,0,0,0.15);
+  h3 {
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: $maincolor;
+    padding: 15px;
+    color: white;
+    letter-spacing: 2px;
+    margin-bottom: 50px;
+  }
+}
+
+.form-group {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  label {
+    width: 200px;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+  .input_field {
+    width: 300px;
+    outline: none;
+    font-size: 15px;
+    border: 1px solid $maincolor;
+    height: 30px;
+    border-radius: 6px;
+  }
+}
+
+.submitButton {
+  display: block;
+  font-size: 1em;
+  text-decoration: none;
+  color: #fff;
+  background-color: lighten($maincolor,25%);
+  width: 150px;
+  padding: 5px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  border-radius: 6px;
+  border: none;
+  &:hover {
+    background-color: $maincolor;
+    text-decoration: none;
+    color: #fff;
+  }
 }
 
 @media screen and (max-width: 1010px) {
