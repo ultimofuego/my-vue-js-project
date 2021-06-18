@@ -5,19 +5,17 @@
           <label for="date">Select the date</label>
           <input v-model="rowData.date" class="input_field" type="date" id="userId" placeholder="Date" required>
         </div>
-        <div class="form-group ">
-          <label for="currency">Select the currency</label>
-          <!-- <input v-model.trim="rowData.currency" class="ml-5" type="text" id="currency" placeholder="Currency" required> -->
-          <select v-model="rowData.currency" id="currency" class="input_field" required>
-            <option disabled value="">Type one</option>
-            <option>EUR</option>
-            <option>RUB</option>
-            <option>USD</option>
-          </select>
+        <div class="form-group">
+          <label for="rateRUB">Type RUB rate</label>
+          <input v-model.number="rowData.rateRUB" class="input_field" type="text" id="rate" placeholder="Rate" required>
         </div>
         <div class="form-group">
-          <label for="rate">Type an exchange rate</label>
-          <input v-model.number="rowData.rate" class="input_field" type="text" id="rate" placeholder="Rate" required>
+          <label for="rateUSD">Type USD rate</label>
+          <input v-model.number="rowData.rateUSD" class="input_field" type="text" id="rate" placeholder="Rate" required>
+        </div>
+        <div class="form-group">
+          <label for="rateEUR">Type EUR rate</label>
+          <input v-model.number="rowData.rateEUR" class="input_field" type="text" id="rate" placeholder="Rate" required>
         </div>
         <button type="submit" class="submitButton" @click="check">Add row</button>
       </form>
@@ -31,10 +29,10 @@ export default {
       return {
         rowData: {
           date: '',
-          currency: '',
-          rate: ''
-        },
-        error: false
+          rateRUB: '',
+          rateUSD: '',
+          rateEUR: ''
+        }
     }
   },
   
@@ -55,8 +53,9 @@ export default {
 
       this.rowData = {
         date: '',
-        currency: '',
-        rate: ''
+        rateRUB: '',
+        rateUSD: '',
+        rateEUR: ''
       }
     }
   }

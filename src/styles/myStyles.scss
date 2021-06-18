@@ -83,7 +83,7 @@ select {
 }
 
 .container {
-    width: 90%;
+    width: 100vw !important;
 }
 
 .container-inner {
@@ -91,6 +91,7 @@ select {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin: auto;
 }
 
 .content-table {

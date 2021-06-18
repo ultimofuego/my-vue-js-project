@@ -7,24 +7,26 @@
         <thead>
             <tr>
               <th scope="col">Date</th>
-              <th scope="col">Currency</th>
-              <th scope="col">Rate</th>
+              <th scope="col">RUB</th>
+              <th scope="col">USD</th>
+              <th scope="col">EUR</th>
               <th></th>
             </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in allNotes" :key="index">
             <td>{{item.date}}</td>
-            <td>{{item.currency}}</td>
-            <td>{{item.rate}}</td>
+            <td>{{item.rateRUB}}</td>
+            <td>{{item.rateUSD}}</td>
+            <td>{{item.rateEUR}}</td>
             <td><button class="removeButton" @click="removeRow(index)">Remove</button></td>
           </tr>
         </tbody>
       </table>
       <apexchart 
-      width="500" type="line" 
-      :options="options" :series="series">
-    </apexchart>
+        width="600" height="350" type="line" 
+        :options="options" :series="series">
+      </apexchart>
     </div>
       
   </div>
@@ -43,7 +45,7 @@ export default {
           id: 'fb'
         },
         xaxis: {
-          categories: [...new Set(this.createDates())]
+          categories: this.createDates()
         },
         colors: ['#6B6779','#EDC072', '#B5CFC6'],
         stroke: {
@@ -53,16 +55,14 @@ export default {
     },
     series() {
       return [{
-        name: 'EUR',
-        //data: this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
-        data: this.createValues('EUR')
-      },{
         name: 'RUB',
-        //data: this.$store.state.rowData.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
-        data: this.createValues('RUB')
+        data: this.createValuesRUB()
       },{
         name: 'USD',
-        data: this.createValues('USD')
+        data: this.createValuesUSD()
+      },{
+        name: 'EUR',
+        data: this.createValuesEUR()
       }]
     }
   },
@@ -70,13 +70,28 @@ export default {
     removeRow(index) {
       this.$store.dispatch('removefromDB', index)
     },
-    createValues(str) {
+    createValuesRUB() {
       let myArr = []
       for(let i = 0; i < this.$store.state.rowData.length; i++) {
-        if(this.$store.state.rowData[i].currency == str) {
-          myArr.push(this.$store.state.rowData[i].rate)
-        } else myArr.push(null)
+        myArr.push(this.$store.state.rowData[i].rateRUB)
       }
+      console.log(myArr)
+      return myArr
+    },
+    createValuesUSD() {
+      let myArr = []
+      for(let i = 0; i < this.$store.state.rowData.length; i++) {
+        myArr.push(this.$store.state.rowData[i].rateUSD)
+      }
+      console.log(myArr)
+      return myArr
+    },
+    createValuesEUR() {
+      let myArr = []
+      for(let i = 0; i < this.$store.state.rowData.length; i++) {
+        myArr.push(this.$store.state.rowData[i].rateEUR)
+      }
+      console.log(myArr)
       return myArr
     },
     createDates() {
