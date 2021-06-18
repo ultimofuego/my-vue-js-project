@@ -5,7 +5,8 @@ export default createStore({
     state() {
         return {
             rowData: [],
-            loading: false
+            loading: false,
+            error: false
         }
     },
     getters: {

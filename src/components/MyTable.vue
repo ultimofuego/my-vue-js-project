@@ -37,23 +37,13 @@ import Loader from './Loader.vue'
 export default {
   computed: {
     ...mapGetters(["allNotes"]),
-    // plotData() {
-    //   let temp = {}
-    //   temp.xEUR = this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
-    //   temp.yEUR = this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
-    //   temp.xRUB = this.$store.state.rowData.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
-    //   temp.yRUB = this.$store.state.rowData.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate),
-    //   temp.xUSD = this.$store.state.rowData.filter(cur => cur.currency==="USD").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date),
-    //   temp.yUSD = this.$store.state.rowData.filter(cur => cur.currency==="USD").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
-    //   return temp
-    // },
     options() {
       return {
         chart: {
           id: 'fb'
         },
         xaxis: {
-          categories: this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date)
+          categories: [...new Set(this.createDates())]
         },
         colors: ['#6B6779','#EDC072', '#B5CFC6'],
         stroke: {
@@ -63,17 +53,34 @@ export default {
     },
     series() {
       return [{
-        name: 'series-1',
-        data: this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
+        name: 'EUR',
+        //data: this.$store.state.rowData.filter(cur => cur.currency==="EUR").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
+        data: this.createValues('EUR')
       },{
-        name: 'series-1',
-        data: this.$store.state.rowData.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
+        name: 'RUB',
+        //data: this.$store.state.rowData.filter(cur => cur.currency==="RUB").sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.rate)
+        data: this.createValues('RUB')
+      },{
+        name: 'USD',
+        data: this.createValues('USD')
       }]
     }
   },
   methods: {
     removeRow(index) {
       this.$store.dispatch('removefromDB', index)
+    },
+    createValues(str) {
+      let myArr = []
+      for(let i = 0; i < this.$store.state.rowData.length; i++) {
+        if(this.$store.state.rowData[i].currency == str) {
+          myArr.push(this.$store.state.rowData[i].rate)
+        } else myArr.push(null)
+      }
+      return myArr
+    },
+    createDates() {
+      return this.$store.state.rowData.sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date)
     }
   },
   components: {

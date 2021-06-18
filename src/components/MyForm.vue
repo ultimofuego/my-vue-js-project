@@ -33,7 +33,8 @@ export default {
           date: '',
           currency: '',
           rate: ''
-        }
+        },
+        error: false
     }
   },
   
@@ -44,6 +45,7 @@ export default {
   methods: {
     submitForm() {
       this.$store.dispatch('pushtoDB', this.rowData)
+      
       this.$router.push({
           path: '/',
           query: {
