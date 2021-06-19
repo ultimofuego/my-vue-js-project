@@ -1,6 +1,10 @@
 <template>
       <form class="card" @submit.prevent="submitForm">
         <h3>Add data to table</h3>
+        <div v-if="errors" class="alert">
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          Такая дата уже есть!
+        </div>
         <div class="form-group ">
           <label for="date">Select the date</label>
           <input v-model="rowData.date" class="input_field" type="date" id="userId" placeholder="Date" required>
@@ -27,12 +31,13 @@ import { mapGetters } from 'vuex'
 export default {
     data() {
       return {
-        rowData: {
-          date: '',
-          rateRUB: '',
-          rateUSD: '',
-          rateEUR: ''
-        }
+      rowData: {
+        date: '',
+        rateRUB: '',
+        rateUSD: '',
+        rateEUR: ''
+      },
+      errors: false
     }
   },
   
@@ -42,21 +47,37 @@ export default {
 
   methods: {
     submitForm() {
-      this.$store.dispatch('pushtoDB', this.rowData)
-      
-      this.$router.push({
+      this.badForm()
+      if(!this.errors) {
+        this.$store.dispatch('pushtoDB', this.rowData)
+        this.$router.push({
           path: '/',
           query: {
-              page: this.$route.path
+            page: this.$route.path
           }
-      })
-
-      this.rowData = {
-        date: '',
-        rateRUB: '',
-        rateUSD: '',
-        rateEUR: ''
+        })
+        this.rowData = {
+          date: '',
+          rateRUB: '',
+          rateUSD: '',
+          rateEUR: ''
+        }
+      } else {
+        this.rowData = {
+          date: '',
+          rateRUB: '',
+          rateUSD: '',
+          rateEUR: ''
+        }
       }
+      console.log(this.errors)
+    },
+    badForm() {
+      let found = this.allNotes.some(item => {
+        return item.date === this.rowData.date;
+      })
+      if(found) this.errors = true 
+      else this.errors = false
     }
   }
 }

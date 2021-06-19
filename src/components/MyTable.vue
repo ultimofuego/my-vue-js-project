@@ -1,8 +1,8 @@
 <template>
   <Loader v-if="this.$store.state.loading"></Loader>
-  <div v-else class="container">
-    <router-link to="/addrow" class="addButton">Add Data</router-link>
-    <div class="container-inner">
+  <div class="container">
+    <div class="table-container">
+      <router-link to="/addrow" class="addButton"><p>Add Data</p></router-link>  
       <table v-if="allNotes.length > 0" class="content-table">
         <thead>
             <tr>
@@ -23,12 +23,11 @@
           </tr>
         </tbody>
       </table>
-      <apexchart 
-        width="600" height="350" type="line" 
-        :options="options" :series="series">
-      </apexchart>
     </div>
-      
+    <apexchart 
+      width="600" height="350" type="line" class="apexchart"
+      :options="options" :series="series">
+    </apexchart>
   </div>
 </template>
 
@@ -50,7 +49,24 @@ export default {
         colors: ['#6B6779','#EDC072', '#B5CFC6'],
         stroke: {
           curve: 'smooth'
-        }
+        },
+        responsive: [{
+          breakpoint: 1030,
+          options: {
+            chart: {
+              width: 400,
+              height: 300
+            }
+          }
+        }, {
+          breakpoint: 600,
+          options: {
+            chart: {
+              width: 250,
+              height: 250
+            }
+          }
+        }]
       }
     },
     series() {
