@@ -3,7 +3,7 @@
         <h3>Add data to table</h3>
         <div v-if="errors" class="alert">
           <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-          Такая дата уже есть!
+          This date already exists
         </div>
         <div class="form-group ">
           <label for="date">Select the date</label>
