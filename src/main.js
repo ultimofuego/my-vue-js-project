@@ -17,7 +17,6 @@ import Loader from './components/Loader'
 const app = createApp(App)
 app.component('my-form', MyForm)
 app.component('my-table', MyTable)
-app.component('apexchart', VueApexCharts)
 app.component('Loader', Loader)
 
 app.use(store)

@@ -7,7 +7,7 @@
 <script>
   export default {
   name: 'App',
-    mounted() {
+  mounted() {
     this.$store.dispatch('fetchNotes')
   }
 }

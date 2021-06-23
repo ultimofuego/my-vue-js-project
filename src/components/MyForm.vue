@@ -11,16 +11,12 @@
             <input v-model="rowData.date" class="input_field" type="date" id="userId" placeholder="Date" required>
           </div>
           <div class="form-group">
-            <label for="rateRUB">Type RUB rate</label>
-            <input v-model.number="rowData.rateRUB" class="input_field" type="text" id="rate" placeholder="Rate" required>
+            <label for="rateRUB">Type the currency</label>
+            <input v-model.number="rowData.currency" class="input_field" type="text" id="rate" placeholder="Rate" required>
           </div>
           <div class="form-group">
-            <label for="rateUSD">Type USD rate</label>
-            <input v-model.number="rowData.rateUSD" class="input_field" type="text" id="rate" placeholder="Rate" required>
-          </div>
-          <div class="form-group">
-            <label for="rateEUR">Type EUR rate</label>
-            <input v-model.number="rowData.rateEUR" class="input_field" type="text" id="rate" placeholder="Rate" required>
+            <label for="rateUSD">Type the rate</label>
+            <input v-model.number="rowData.rate" class="input_field" type="text" id="rate" placeholder="Rate" required>
           </div>
         
         <button type="submit" class="submitButton" @click="check">Add row</button>
@@ -35,9 +31,8 @@ export default {
       return {
       rowData: {
         date: '',
-        rateRUB: '',
-        rateUSD: '',
-        rateEUR: ''
+        currency: '',
+        rate: ''
       },
       errors: false
     }
@@ -53,34 +48,33 @@ export default {
       if(!this.errors) {
         this.$store.dispatch('pushtoDB', this.rowData)
         this.$router.push({
-          path: '/',
-          query: {
-            page: this.$route.path
-          }
+          path: '/'
         })
+        console.log(this.createArray())
         this.rowData = {
           date: '',
-          rateRUB: '',
-          rateUSD: '',
-          rateEUR: ''
+          currency: '',
+          rate: ''
         }
       } else {
         this.rowData = {
           date: '',
-          rateRUB: '',
-          rateUSD: '',
-          rateEUR: ''
+          currency: '',
+          rate: ''
         }
       }
-      console.log(this.errors)
     },
     badForm() {
       let found = this.allNotes.some(item => {
-        return item.date === this.rowData.date;
+        return (item.date === this.rowData.date && item.currency === this.rowData.currency);
       })
       if(found) this.errors = true 
       else this.errors = false
     }
   }
+  // createDates() {
+  //   return this.allNotes.sort((a,b)=>a.date > b.date ? 1 : -1).map(a=>a.date)
+  // },
+  //if(this.$store.state.rowData[i].date === dates[i] && this.$store.state.rowData[i].currency === c)
 }
 </script>

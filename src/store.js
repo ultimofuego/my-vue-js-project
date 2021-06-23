@@ -11,7 +11,8 @@ export default createStore({
     getters: {
         allNotes(state) {
             return state.rowData
-        }
+        },
+        
     },
     actions: {
         fetchNotes(ctx) {
@@ -48,7 +49,6 @@ export default createStore({
             })
         }
     },
-
     mutations: {
         updateNotes(state, rowData) {
             state.rowData = rowData
