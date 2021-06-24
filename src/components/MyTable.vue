@@ -22,10 +22,13 @@
         </tbody>
       </table>
     </div>
-    <apexchart 
+    <Loader v-if="loading"></Loader>
+    <apexchart v-else
       width="600" height="350" type="line" class="apexchart"
       :options="options" :series="series">
     </apexchart>
+    
+    
   </div>
 </template>
 
@@ -34,16 +37,17 @@ import { mapGetters } from 'vuex'
 import Loader from './Loader.vue'
 
 export default {
-  data() {
-    return {
-      options: {
+  computed: {
+    ...mapGetters(["allNotes"]),
+    options() {
+      return {
         chart: {
-          id: 'fb'
+          type: 'line'
         },
         xaxis: {
-          categories: ['1','2']
+          categories: this.createDates
         },
-        colors: ['#111111'],
+        colors: this.createColors,
         stroke: {
           curve: 'smooth'
         },
@@ -63,16 +67,36 @@ export default {
               height: 250
             }
           }
-        }]
-      },
-      series: [{
-        name: '2',
-        data: [3,4]
       }]
     }
-  },
-  computed: {
-    ...mapGetters(["allNotes"]),
+    },
+    series() {
+      return this.createArray
+    },
+    createDates() {
+      return [...new Set(this.allNotes.map(a=>a.date).sort((a,b)=>a > b ? 1 : -1))]
+    },
+    createArray() {
+      const cur = [...new Set(this.allNotes.map(a => a.currency))] 
+      const myArr = []
+      console.log(cur)
+      for(let i = 0; i < cur.length; i++) { 
+        const c = cur[i]
+        myArr.push({
+          name: c,
+          data: this.createNulls(c, this.allNotes)
+        })
+      }
+      return myArr
+    },
+    createColors() {
+      const cur = [...new Set(this.allNotes.map(a => a.currency))]
+      const colors = []
+      cur.forEach(() => {
+        colors.push('#'+(Math.random()*0xFFFFFF<<0).toString(16))
+      })
+      return colors
+    }
   },
   methods: {
     removeRow(index) {
@@ -80,9 +104,7 @@ export default {
     },
     createNulls(c, data) {
       const myArr = []
-      const dates = this.createDates() //массив дат без повторений
-      console.log(dates)
-
+      const dates = this.createDates 
       for(let i = 0; i < dates.length; i++) {
         const result = data.filter(item => (item.date === dates[i] && item.currency === c))
         if(result.length != 0) {
@@ -92,43 +114,10 @@ export default {
         }
       }
       return myArr
-    },
-    createDates() {
-      return [...new Set(this.allNotes.map(a=>a.date).sort((a,b)=>a > b ? 1 : -1))]
-    },
-    createArray() {
-      let storeData = this.allNotes
-      const cur = [...new Set(storeData.map(a => a.currency))] //массив названий валют, без повторений
-      const myArr = []
-      
-      for(let i = 0; i < cur.length; i++) { //пробегаюсь по массиву и для каждой валюты в массив пушу объект
-         const c = cur[i]
-         myArr.push({
-           name: c,
-           data: this.createNulls(c, storeData) //здесь должен быть массив с null
-         })
-       }
-      console.log(myArr)
-      return myArr
-    },
-    createColors() {
-      let storeData = this.allNotes
-      const cur = [...new Set(storeData.map(a => a.currency))]
-      const colors = []
-      console.log(storeData)
-      cur.forEach(() => {
-        colors.push('#'+(Math.random()*0xFFFFFF<<0).toString(16))
-      })
-      return colors
     }
   },
   components: {
     Loader
-  },
-  created() {
-    this.series = this.createArray()
-    this.options.xaxis.categories = this.createDates()
-    this.options.colors = this.createColors()
   }
 }
 </script>

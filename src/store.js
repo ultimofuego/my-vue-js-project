@@ -12,7 +12,6 @@ export default createStore({
         allNotes(state) {
             return state.rowData
         },
-        
     },
     actions: {
         fetchNotes(ctx) {
